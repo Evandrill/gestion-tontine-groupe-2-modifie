@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}Tableau de Bord Président{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Tableau de Bord du Président</h1>
+    <p>Bienvenue, {{ user.username }}.</p>
+    
+    <!-- Liste des membres -->
+    <div class="card mt-4">
+        <div class="card-header">
+            <h3>Liste des Membres</h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nom d'utilisateur</th>
+                        <th>Email</th>
+                        <th>Téléphone</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for membre in membres %}
+                    <tr>
+                        <td>{{ membre.username }}</td>
+                        <td>{{ membre.email }}</td>
+                        <td>{{ membre.telephone }}</td>
+                        <td>
+                            <form action="{% url 'utilisateurs:remove_member' membre.id %}" method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce membre ?');">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm">Retirer</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center">Aucun membre trouvé.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="{% url 'utilisateurs:register' %}" class="btn btn-primary">Ajouter un membre</a>
+        </div>
+    </div>
+
+    <!-- Cotisations à valider -->
+    <div class="card mt-4">
+        <div class="card-header">
+            <h3>Cotisations à Valider</h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Membre</th>
+                        <th>Montant</th>
+                        <th>Date Prévue</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cotisation in cotisations_a_valider %}
+                    <tr>
+                        <td>{{ cotisation.membre }}</td>
+                        <td>{{ cotisation.montant }}</td>
+                        <td>{{ cotisation.date_prevue }}</td>
+                        <td><span class="badge bg-warning text-dark">{{ cotisation.get_statut_display }}</span></td>
+                        <td>
+                            <form action="{% url 'utilisateurs:validate_cotisation' cotisation.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success btn-sm">Valider</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center">Aucune cotisation à valider.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Prêts à valider -->
+    <div class="card mt-4">
+        <div class="card-header">
+            <h3>Prêts à Valider</h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Membre</th>
+                        <th>Montant</th>
+                        <th>Date de Demande</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pret in prets_a_valider %}
+                    <tr>
+                        <td>{{ pret.membre }}</td>
+                        <td>{{ pret.montant }}</td>
+                        <td>{{ pret.date_demande }}</td>
+                        <td>
+                            <form action="{% url 'utilisateurs:validate_pret' pret.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success btn-sm">Approuver</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center">Aucun prêt à valider.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Gestion des tours -->
+    <div class="card mt-4">
+        <div class="card-header">
+            <h3>Gestion des Tours</h3>
+        </div>
+        <div class="card-body">
+            <a href="{% url 'utilisateurs:schedule_rounds' %}" class="btn btn-primary">Programmer les tours</a>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

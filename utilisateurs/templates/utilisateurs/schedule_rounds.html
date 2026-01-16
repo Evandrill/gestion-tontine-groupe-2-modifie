@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Programmer les Tours{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Programmer l'Ordre des Tours</h1>
+
+    <form method="get" action="">
+        <div class="mb-3">
+            <label for="tontine" class="form-label">Sélectionnez une Tontine</label>
+            <select name="tontine" id="tontine" class="form-select" onchange="this.form.submit()">
+                <option value="">--- Choisissez une tontine ---</option>
+                {% for tontine in tontines %}
+                    <option value="{{ tontine.id }}" {% if request.GET.tontine == tontine.id|stringformat:"s" %}selected{% endif %}>
+                        {{ tontine.nom }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+    </form>
+
+    {% if selected_tontine %}
+    <hr>
+    <h3>Programmer les tours pour : {{ selected_tontine.nom }}</h3>
+    <form method="post" action="">
+        {% csrf_token %}
+        <input type="hidden" name="tontine_id" value="{{ selected_tontine.id }}">
+        
+        <!-- Future: Cycle Selection -->
+        
+        <table class="table table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Membre</th>
+                    <th>Ordre de passage</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for membre_tontine in membres_tontine %}
+                <tr>
+                    <td>{{ membre_tontine.membre.prenom }} {{ membre_tontine.membre.nom }}</td>
+                    <td>
+                        <input type="number" name="ordre_{{ membre_tontine.membre.id }}" class="form-control" min="1" max="{{ membres_tontine.count }}">
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <button type="submit" class="btn btn-primary">Enregistrer l'ordre</button>
+    </form>
+    {% endif %}
+
+</div>
+{% endblock %}

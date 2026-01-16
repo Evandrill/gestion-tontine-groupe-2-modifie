@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Tableau de Bord Trésorier{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Tableau de Bord du Trésorier</h1>
+    <p>Bienvenue, {{ user.username }}.</p>
+    
+    <div class="card mt-4">
+        <div class="card-header">
+            <h3>Caisse Totale</h3>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">{{ caisse_totale|floatformat:2 }} €</h2>
+        </div>
+    </div>
+
+    <div class="card mt-4">
+        <div class="card-header">
+            <h3>Remboursements</h3>
+        </div>
+        <div class="card-body">
+            <a href="{% url 'utilisateurs:report_reimbursement' %}" class="btn btn-primary">Signaler un remboursement</a>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}

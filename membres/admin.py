@@ -68,8 +68,8 @@ class TontineAdmin(admin.ModelAdmin):
 
 # ModelAdmin pour CustomUser
 class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ('username', 'email', 'role', 'est_admin', 'est_tresorier', 'is_active')
-    list_filter = ('role', 'est_admin', 'est_tresorier', 'is_active')
+    list_display = ('username', 'email', 'is_active')
+    list_filter = ('is_active',)
     search_fields = ('username', 'email')
 
 

@@ -13,9 +13,6 @@ class CustomUserCreationForm(UserCreationForm):
             'last_name',
             'telephone',
             'adresse',
-            'role',
-            'est_admin',
-            'est_tresorier',
         )
 
 # Formulaire de modification d’un utilisateur (ex: dans admin ou profil)
@@ -29,9 +26,6 @@ class CustomUserChangeForm(UserChangeForm):
             'last_name',
             'telephone',
             'adresse',
-            'role',
-            'est_admin',
-            'est_tresorier',
             'is_active',
             'is_staff',
         )

@@ -46,6 +46,11 @@ class RemboursementForm(forms.ModelForm):
     class Meta:
         model = Remboursement
         fields = ('pret', 'montant', 'commentaire')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['pret'].queryset = Pret.objects.filter(statut='EN_COURS')
+
 from django import forms
 from .models import Don
 

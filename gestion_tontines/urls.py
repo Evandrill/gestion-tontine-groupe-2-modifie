@@ -12,7 +12,7 @@ urlpatterns = [
     # Admin
    
     # Redirection de la racine vers la page de login
-    path('', lambda request: redirect('login')),
+    path('', lambda request: redirect('utilisateurs:login')),
     # Applications principales
     path('utilisateurs/', include('utilisateurs.urls')),
     path('membres/', include('membres.urls')),
@@ -22,8 +22,8 @@ urlpatterns = [
     path('cotisations/', include('cotisations.urls')),
     path('dons/', include('dons.urls')),
     path('operations/', include('operations.urls')),
- path('accounts/', include('django.contrib.auth.urls')), 
- path('admin/', custom_admin_site.urls),
+    path('accounts/', include('django.contrib.auth.urls')), 
+    path('admin/', custom_admin_site.urls),
 
     # Nous retirons ces routes en double pour éviter la confusion
     # path('login/', auth_views.LoginView.as_view(template_name='utilisateurs/login.html'), name='login'),

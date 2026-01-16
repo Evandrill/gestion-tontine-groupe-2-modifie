@@ -92,15 +92,8 @@ WSGI_APPLICATION = 'gestion_tontines.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'new_schema',
-        'USER': 'root',
-        'PASSWORD': 'dorcas1404',
-        'HOST': 'localhost',
-        'PORT': '3306',
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -142,12 +135,16 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'), # Remplacez 'static_global' par le nom de votre dossier
+]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = '/utilisateurs/login/'
-LOGIN_REDIRECT_URL = 'utilisateurs:dashboard' 
+LOGIN_REDIRECT_URL = 'utilisateurs:redirection' 
 
 
